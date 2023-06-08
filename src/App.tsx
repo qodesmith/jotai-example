@@ -1,5 +1,7 @@
 import './App.css'
 import {atom, useAtom, useAtomValue} from 'jotai'
+import SuspenseValue from './SuspenseValue'
+import {Suspense} from 'react'
 
 function App() {
   const [primitive, setPrimitive] = useAtom(primitiveAtom)
@@ -34,6 +36,12 @@ function App() {
           >
             +2
           </button>
+        </section>
+        <section>
+          <h2>Suspense Selector</h2>
+          <Suspense fallback="Loading...">
+            <SuspenseValue />
+          </Suspense>
         </section>
       </div>
     </>
