@@ -1,0 +1,10 @@
+.sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+section {
+  border: 1px solid;
+  padding: 1em;
+}
