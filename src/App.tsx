@@ -4,6 +4,7 @@ import {atom, useAtom, useAtomValue} from 'jotai'
 function App() {
   const [primitive, setPrimitive] = useAtom(primitiveAtom)
   const double = useAtomValue(doubleSelector)
+  const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
 
   return (
     <>
@@ -22,12 +23,48 @@ function App() {
             Double the value of <code>primitiveAtom</code>
           </div>
         </section>
+        <section>
+          <h2>+2 Writable Selector</h2>
+          <div>Value: {plus2}</div>
+          <button
+            onClick={() => {
+              const returnVal = setPlus2('2')
+              console.log('returnVal:', returnVal)
+            }}
+          >
+            +2
+          </button>
+        </section>
       </div>
     </>
   )
 }
 
 export default App
+
+/**
+ * A writable selector must have 2 arguments:
+ * 1. Read function that returns the value of this selector
+ * 2. Write function that writes back to any underlying atoms you get().
+ *
+ * const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
+ *
+ * Unlike primitive atoms, the setter from a writable selector does not take a
+ * function where you can access the old value. Whatever you pass the setter
+ * becomes the value of the underlying atom. So if you pass a function, the
+ * function itself becomes the new value stored in the atom.
+ *
+ * The write function can also return a value!
+ *
+ * const returnVal = setPlus2(2)
+ */
+const plusTwoWritableSelector = atom(
+  get => get(primitiveAtom) + 2,
+  (get, set, newValue: string) => {
+    set(primitiveAtom, get(primitiveAtom) + Number(newValue))
+    return {hello: 'world'}
+  }
+)
 
 /**
  * This selector is read-only. You do can either:
