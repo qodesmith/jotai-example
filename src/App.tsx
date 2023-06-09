@@ -1,13 +1,31 @@
 import './App.css'
-import {atom, useAtom, useAtomValue} from 'jotai'
+import {Provider, atom, useAtom, useAtomValue} from 'jotai'
 import SuspenseValue from './SuspenseValue'
 import {Suspense, useState} from 'react'
+
+/**
+ * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
+ * atoms within a <Providers>'s tree by remounting it. This will clear the
+ * entire Jotai store.
+ */
+function AppProvider() {
+  const [providerKey, setProviderKey] = useState(Math.random())
+
+  return (
+    <Provider key={providerKey}>
+      <button onClick={() => setProviderKey(Math.random())}>
+        Reset Jotai store
+      </button>
+      <App />
+    </Provider>
+  )
+}
 
 function App() {
   const [primitive, setPrimitive] = useAtom(primitiveAtom)
   const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
-  const [isHidden, setIsHidden] = useState(true)
+  const [isHidden, setIsHidden] = useState(false)
 
   return (
     <>
@@ -58,7 +76,7 @@ function App() {
   )
 }
 
-export default App
+export default AppProvider
 
 /**
  * A writable selector must have 2 arguments:
