@@ -1,12 +1,13 @@
 import './App.css'
 import {atom, useAtom, useAtomValue} from 'jotai'
 import SuspenseValue from './SuspenseValue'
-import {Suspense} from 'react'
+import {Suspense, useState} from 'react'
 
 function App() {
   const [primitive, setPrimitive] = useAtom(primitiveAtom)
   const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
+  const [isHidden, setIsHidden] = useState(true)
 
   return (
     <>
@@ -39,9 +40,18 @@ function App() {
         </section>
         <section>
           <h2>Suspense Selector</h2>
-          <Suspense fallback="Loading...">
-            <SuspenseValue />
-          </Suspense>
+          {isHidden ? (
+            <div>Supspense is hidden.</div>
+          ) : (
+            <Suspense key={Math.random()} fallback="Loading...">
+              <SuspenseValue />
+            </Suspense>
+          )}
+          <div>
+            <button onClick={() => setIsHidden(v => !v)}>
+              {isHidden ? 'Show' : 'Remove'}
+            </button>
+          </div>
         </section>
       </div>
     </>
