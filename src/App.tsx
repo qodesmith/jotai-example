@@ -7,6 +7,11 @@ import {Suspense, useState} from 'react'
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
  * atoms within a <Providers>'s tree by remounting it. This will clear the
  * entire Jotai store.
+ *
+ * 3 main reasons for providers, according to the docs:
+ * - To provide a different state for each sub tree.
+ * - To accept initial values of atoms.
+ * - To clear all atoms by remounting.
  */
 function AppProvider() {
   const [providerKey, setProviderKey] = useState(Math.random())
