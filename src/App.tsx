@@ -1,7 +1,10 @@
 import './App.css'
-import {Provider, atom, useAtom, useAtomValue} from 'jotai'
+import {Provider, atom, createStore, useAtom, useAtomValue} from 'jotai'
+import {atomWithStorage, RESET} from 'jotai/utils'
 import SuspenseValue from './SuspenseValue'
 import {Suspense, useState} from 'react'
+
+const store = createStore()
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -17,7 +20,7 @@ function AppProvider() {
   const [providerKey, setProviderKey] = useState(Math.random())
 
   return (
-    <Provider key={providerKey}>
+    <Provider key={providerKey} store={store}>
       <button onClick={() => setProviderKey(Math.random())}>
         Reset Jotai store
       </button>
@@ -31,6 +34,7 @@ function App() {
   const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
+  const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
 
   return (
     <>
@@ -76,6 +80,18 @@ function App() {
             </button>
           </div>
         </section>
+        <section>
+          <h2>Local Storage Atom</h2>
+          <div>Value: {localStorageValue}</div>
+          <button
+            onClick={() => setLocalStorageValue(Math.random().toString())}
+          >
+            Set to random number
+          </button>
+          <button onClick={() => setLocalStorageValue(RESET)}>
+            Clear value
+          </button>
+        </section>
       </div>
     </>
   )
@@ -83,6 +99,19 @@ function App() {
 
 export default AppProvider
 
+/**
+ * Behavior for localStorageAtom:
+ * - locaStorage will NOT be set to the initialValue just by accessing the atom
+ * - As soon as the atom's value is changed, an entry is made in localStorage
+ * - The atom will initialize to the value found in localStorage upon refresh
+ * - Resetting the atom removes the key from localStorage
+ */
+const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
+
+// Just a simple way to see when the localStorage atom changes.
+store.sub(localStorageAtom, () => {
+  console.log(localStorage)
+})
 /**
  * A writable selector must have 2 arguments:
  * 1. Read function that returns the value of this selector
