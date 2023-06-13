@@ -2,9 +2,9 @@ import './App.css'
 import {Provider, atom, createStore, useAtom, useAtomValue} from 'jotai'
 import {atomWithStorage, RESET} from 'jotai/utils'
 import SuspenseValue from './SuspenseValue'
-import {Suspense, useState} from 'react'
+import {Suspense, useCallback, useEffect, useState} from 'react'
 
-const store = createStore()
+let currentStore = createStore()
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -15,15 +15,33 @@ const store = createStore()
  * - To provide a different state for each sub tree.
  * - To accept initial values of atoms.
  * - To clear all atoms by remounting.
+ *
+ * In order to clear the store:
+ * - DO pass a store prop and recreate the store
+ * - DON'T pass a store prop and remount the Provider with a key change
+ * - Know that localStorage atoms will not be reset
+ *
+ * Remounting a <Provider> with a stable store reference won't clear the store.
  */
-function AppProvider() {
-  const [providerKey, setProviderKey] = useState(Math.random())
+export default function AppProvider() {
+  const [store, setStore] = useState(currentStore)
+  const handleResetStore = useCallback(() => {
+    currentStore = createStore()
+    setStore(currentStore)
+  }, [])
+
+  useEffect(() => {
+    // Just a simple way to see when the localStorage atom changes.
+    const unsub = store.sub(localStorageAtom, () => {
+      console.log(localStorage)
+    })
+
+    return unsub
+  }, [store])
 
   return (
-    <Provider key={providerKey} store={store}>
-      <button onClick={() => setProviderKey(Math.random())}>
-        Reset Jotai store
-      </button>
+    <Provider store={store}>
+      <button onClick={handleResetStore}>Reset Jotai store</button>
       <App />
     </Provider>
   )
@@ -43,8 +61,10 @@ function App() {
         <section>
           <h2>Primitive Atom</h2>
           <div>Value: {primitive}</div>
-          <button onClick={() => setPrimitive(old => old - 1)}>-</button>
-          <button onClick={() => setPrimitive(old => old + 1)}>+</button>
+          <div className="button-group">
+            <button onClick={() => setPrimitive(old => old - 1)}>-</button>
+            <button onClick={() => setPrimitive(old => old + 1)}>+</button>
+          </div>
         </section>
         <section>
           <h2>Double Selector</h2>
@@ -83,21 +103,21 @@ function App() {
         <section>
           <h2>Local Storage Atom</h2>
           <div>Value: {localStorageValue}</div>
-          <button
-            onClick={() => setLocalStorageValue(Math.random().toString())}
-          >
-            Set to random number
-          </button>
-          <button onClick={() => setLocalStorageValue(RESET)}>
-            Clear value
-          </button>
+          <div className="button-group">
+            <button
+              onClick={() => setLocalStorageValue(Math.random().toString())}
+            >
+              Set to random number
+            </button>
+            <button onClick={() => setLocalStorageValue(RESET)}>
+              Clear value
+            </button>
+          </div>
         </section>
       </div>
     </>
   )
 }
-
-export default AppProvider
 
 /**
  * Behavior for localStorageAtom:
@@ -108,10 +128,6 @@ export default AppProvider
  */
 const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
 
-// Just a simple way to see when the localStorage atom changes.
-store.sub(localStorageAtom, () => {
-  console.log(localStorage)
-})
 /**
  * A writable selector must have 2 arguments:
  * 1. Read function that returns the value of this selector
