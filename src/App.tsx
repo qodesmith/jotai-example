@@ -164,6 +164,20 @@ const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
  * The write function can also return a value!
  *
  * const returnVal = setPlus2(2)
+ *
+ * Writable selectors are ALWAYS based on an external atom for their source of
+ * truth. You cannot try to use the writable selector itself to store data.
+ * For example, the following WILL NOT WORK:
+ *
+ * ```typescript
+ * type AB = {a: number; b: number}
+ * const writableSelector = atom<AB, [AB | typeof RESET], void>(
+ *   () => ({a: 1, b: 2}),
+ *   (get, set, newValue) => (newValue === RESET ? {a: 1, b: 2} : newValue)
+ * )
+ * ```
+ * The above example doesn't work because the read function always returns the
+ * same value as opposed to returning an underlying atom's value.
  */
 const plusTwoWritableSelector = atom(
   get => get(primitiveAtom) + 2,
