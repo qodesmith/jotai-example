@@ -1,6 +1,6 @@
 import './App.css'
 import {Provider, atom, createStore, useAtom, useAtomValue} from 'jotai'
-import {atomWithStorage, RESET} from 'jotai/utils'
+import {atomWithDefault, atomWithStorage, RESET} from 'jotai/utils'
 import SuspenseValue from './SuspenseValue'
 import {Suspense, useCallback, useEffect, useState} from 'react'
 
@@ -53,6 +53,7 @@ function App() {
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
   const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
+  const [withDefault, setWithDefault] = useAtom(atomWithDefaultValue)
 
   return (
     <>
@@ -114,10 +115,30 @@ function App() {
             </button>
           </div>
         </section>
+        <section>
+          <h2>Atom With Default Writable Selector</h2>
+          <div>Value: {String(withDefault)}</div>
+          <div className="button-group">
+            <button onClick={() => setWithDefault(+Math.random().toFixed(2))}>
+              Set selector to random val
+            </button>
+            <button onClick={() => setWithDefault(RESET)}>Reset</button>
+          </div>
+        </section>
       </div>
     </>
   )
 }
+
+/**
+ * This atom has the same syntax as a selector (read-only atom), but it is
+ * writable! The 1st argument is a function which returns the default value.
+ *
+ * It acts almost like a writable selector except IT IS the source of truth -
+ * no other atom is required to make it a "writable selector".
+ * This atom can be reset.
+ */
+const atomWithDefaultValue = atomWithDefault(() => 9001)
 
 /**
  * Behavior for localStorageAtom:
