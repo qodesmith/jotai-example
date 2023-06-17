@@ -41,13 +41,12 @@ export default function AppProvider() {
 
   return (
     <Provider store={store}>
-      <button onClick={handleResetStore}>Reset Jotai store</button>
-      <App />
+      <App resetStore={handleResetStore} />
     </Provider>
   )
 }
 
-function App() {
+function App({resetStore}: {resetStore: () => void}) {
   const [primitive, setPrimitive] = useAtom(primitiveAtom)
   const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
@@ -57,7 +56,10 @@ function App() {
 
   return (
     <>
-      <h1>Jotai Test</h1>
+      <header>
+        <h1>Jotai Test</h1>
+        <button onClick={resetStore}>Reset Jotai store</button>
+      </header>
       <div className="sections">
         <section>
           <h2>Primitive Atom</h2>
@@ -77,6 +79,9 @@ function App() {
         <section>
           <h2>+2 Writable Selector</h2>
           <div>Value: {plus2}</div>
+          <div>
+            <em>(setter return value logged to the console)</em>
+          </div>
           <button
             onClick={() => {
               const returnVal = setPlus2('2')
@@ -104,6 +109,9 @@ function App() {
         <section>
           <h2>Local Storage Atom</h2>
           <div>Value: {localStorageValue}</div>
+          <div>
+            <em>(values logged to the console)</em>
+          </div>
           <div className="button-group">
             <button
               onClick={() => setLocalStorageValue(Math.random().toString())}
