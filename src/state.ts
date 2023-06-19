@@ -1,38 +1,23 @@
 import {ExtractAtomValue, atom} from 'jotai'
 import {atomWithDefault, atomWithStorage} from 'jotai/utils'
 
-/**
- * This atom has the same syntax as a selector (read-only atom), but it is
- * writable! The 1st argument is a function which returns the default value.
- *
- * It acts almost like a writable selector except IT IS the source of truth -
- * no other atom is required to make it a "writable selector".
- * This atom can be reset.
- */
-export const defaultValueAtom = atomWithDefault(() => 9001)
+// Private atoms - Not to be consumed directly.
+const PRIVATE_hellowWorldAtom = atom('hello world')
 
 /**
- * Behavior for localStorageAtom:
- * - locaStorage will NOT be set to the initialValue just by accessing the atom
- * - As soon as the atom's value is changed, an entry is made in localStorage
- * - The atom will initialize to the value found in localStorage upon refresh
- * - Resetting the atom removes the key from localStorage
+ * Simplest version of useState in Jotai.
+ * This returns a value and a setter.
  */
-export const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
+export const primitiveAtom = atom(5)
 
 /**
- * Jotai will suspend since this selector returns a promise.
+ * This selector is read-only. You do can either:
+ * - const [double] = useAtom(doubleSelector)
+ * - const double = useAtomValue(doubleSelector)
  *
- * We can use Jotai's type helper - ExtractAtomValue - to infer the type from
- * the atom we consume in the selector.
+ * Destructuring the 2nd setter argument with useAtom will not work.
  */
-export const promiseSelector = atom<
-  Promise<ExtractAtomValue<typeof PRIVATE_hellowWorldAtom>>
->(get => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(get(PRIVATE_hellowWorldAtom)), 2000)
-  })
-})
+export const doubleSelector = atom(get => get(primitiveAtom) * 2)
 
 /**
  * A writable selector must have 2 arguments:
@@ -73,19 +58,35 @@ export const plusTwoWritableSelector = atom(
 )
 
 /**
- * This selector is read-only. You do can either:
- * - const [double] = useAtom(doubleSelector)
- * - const double = useAtomValue(doubleSelector)
+ * Jotai will suspend since this selector returns a promise.
  *
- * Destructuring the 2nd setter argument with useAtom will not work.
+ * We can use Jotai's type helper - ExtractAtomValue - to infer the type from
+ * the atom we consume in the selector.
  */
-export const doubleSelector = atom(get => get(primitiveAtom) * 2)
+export const promiseSelector = atom<
+  Promise<ExtractAtomValue<typeof PRIVATE_hellowWorldAtom>>
+>(get => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(get(PRIVATE_hellowWorldAtom)), 2000)
+  })
+})
 
 /**
- * Simplest version of useState in Jotai.
- * This returns a value and a setter.
+ * Behavior for localStorageAtom:
+ * - locaStorage will NOT be set to the initialValue just by accessing the atom
+ * - As soon as the atom's value is changed, an entry is made in localStorage
+ * - The atom will initialize to the value found in localStorage upon refresh
+ * - Resetting the atom removes the key from localStorage
  */
-export const primitiveAtom = atom(5)
+export const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
 
-// Not to be consumed directly.
-const PRIVATE_hellowWorldAtom = atom('hello world')
+/**
+ * This atom has the same syntax as a selector (read-only atom), but it is
+ * writable! The 1st argument is a function which returns the default value.
+ *
+ * It acts almost like a writable selector except IT IS the source of truth -
+ * no other atom is required to make it a "writable selector".
+ *
+ * This atom can be reset.
+ */
+export const defaultValueAtom = atomWithDefault(() => 9001)
