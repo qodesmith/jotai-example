@@ -9,7 +9,7 @@ import {atomWithDefault, atomWithStorage} from 'jotai/utils'
  * no other atom is required to make it a "writable selector".
  * This atom can be reset.
  */
-export const atomWithDefaultValue = atomWithDefault(() => 9001)
+export const defaultValueAtom = atomWithDefault(() => 9001)
 
 /**
  * Behavior for localStorageAtom:

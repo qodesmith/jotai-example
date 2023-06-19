@@ -4,7 +4,7 @@ import {RESET} from 'jotai/utils'
 import SuspenseValue from './SuspenseValue'
 import {Suspense, useCallback, useEffect, useState} from 'react'
 import {
-  atomWithDefaultValue,
+  defaultValueAtom,
   doubleSelector,
   localStorageAtom,
   plusTwoWritableSelector,
@@ -59,7 +59,7 @@ function App({resetStore}: {resetStore: () => void}) {
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
   const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
-  const [withDefault, setWithDefault] = useAtom(atomWithDefaultValue)
+  const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
 
   return (
     <>
