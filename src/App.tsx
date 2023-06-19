@@ -1,14 +1,17 @@
 import './App.css'
-import {Provider, createStore, useAtom, useAtomValue} from 'jotai'
-import {RESET} from 'jotai/utils'
+import {Provider, createStore, useAtom, useAtomValue, useSetAtom} from 'jotai'
+import {RESET, useResetAtom} from 'jotai/utils'
 import SuspenseValue from './SuspenseValue'
+import SuspenseValue2 from './SuspenseValue2'
 import {Suspense, useCallback, useEffect, useState} from 'react'
 import {
+  asyncDefaultValueAtom,
   defaultValueAtom,
   doubleSelector,
   localStorageAtom,
   plusTwoWritableSelector,
   primitiveAtom,
+  setAsyncDefaultValueAtom,
 } from './state'
 
 let currentStore = createStore()
@@ -58,8 +61,11 @@ function App({resetStore}: {resetStore: () => void}) {
   const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
+  const [isHidden2, setIsHidden2] = useState(false)
   const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
   const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
+  const asyncDefaultValueAtomUpdater = useSetAtom(setAsyncDefaultValueAtom)
+  const resetAsyncDefaultValueAtom = useResetAtom(asyncDefaultValueAtom)
 
   return (
     <>
@@ -114,6 +120,23 @@ function App({resetStore}: {resetStore: () => void}) {
           </div>
         </section>
         <section>
+          <h2>Suspense Default Atom</h2>
+          {isHidden2 ? (
+            <div>Supspense is hidden.</div>
+          ) : (
+            <Suspense key={Math.random()} fallback="Loading...">
+              <SuspenseValue2 />
+            </Suspense>
+          )}
+          <div className="button-group">
+            <button onClick={() => setIsHidden2(v => !v)}>
+              {isHidden2 ? 'Show' : 'Remove'}
+            </button>
+            <button onClick={asyncDefaultValueAtomUpdater}>Update</button>
+            <button onClick={resetAsyncDefaultValueAtom}>Reset</button>
+          </div>
+        </section>
+        <section>
           <h2>Local Storage Atom</h2>
           <div>Value: {localStorageValue}</div>
           <div>
@@ -131,8 +154,8 @@ function App({resetStore}: {resetStore: () => void}) {
           </div>
         </section>
         <section>
-          <h2>Atom With Default Writable Selector</h2>
-          <div>Value: {String(withDefault)}</div>
+          <h2>Atom With Default Value</h2>
+          <div>Value: {withDefault}</div>
           <div className="button-group">
             <button onClick={() => setWithDefault(+Math.random().toFixed(2))}>
               Set selector to random val
