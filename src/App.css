@@ -19,3 +19,10 @@ section {
   margin-top: 0;
   line-height: 1;
 }
+
+.color-box {
+  background: cornflowerblue;
+  width: 150px;
+  height: 40px;
+  border-radius: 8px;
+}
