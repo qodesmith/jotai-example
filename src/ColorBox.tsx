@@ -8,5 +8,9 @@ export default function ColorBox({setState}: {setState: (n: number) => void}) {
     [setState]
   )
 
-  return <div className="color-box" onMouseMove={onMouseMove} />
+  return (
+    <span className="color-box" onMouseMove={onMouseMove}>
+      move mouse over me
+    </span>
+  )
 }
