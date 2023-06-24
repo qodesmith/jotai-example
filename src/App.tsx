@@ -9,10 +9,13 @@ import {
   defaultValueAtom,
   doubleSelector,
   localStorageAtom,
+  numSelector,
   plusTwoWritableSelector,
   primitiveAtom,
   setAsyncDefaultValueAtom,
+  writeOnlyNumAtom2,
 } from './state'
+import ColorBox from './ColorBox'
 
 let currentStore = createStore()
 
@@ -66,6 +69,8 @@ function App({resetStore}: {resetStore: () => void}) {
   const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
   const asyncDefaultValueAtomUpdater = useSetAtom(setAsyncDefaultValueAtom)
   const resetAsyncDefaultValueAtom = useResetAtom(asyncDefaultValueAtom)
+  const numValue = useAtomValue(numSelector)
+  const setNumValue = useSetAtom(writeOnlyNumAtom2)
 
   return (
     <>
@@ -162,6 +167,11 @@ function App({resetStore}: {resetStore: () => void}) {
             </button>
             <button onClick={() => setWithDefault(RESET)}>Reset</button>
           </div>
+        </section>
+        <section>
+          <h2>Set a write-only atom</h2>
+          <div>Value: {numValue}</div>
+          <ColorBox setState={setNumValue} />
         </section>
       </div>
     </>

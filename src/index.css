@@ -50,6 +50,7 @@ button:focus-visible {
 .button-group {
   display: flex;
   gap: 0.25em;
+  align-items: center;
 }
 
 @media (prefers-color-scheme: light) {

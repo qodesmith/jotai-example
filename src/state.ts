@@ -3,6 +3,7 @@ import {RESET, atomWithDefault, atomWithStorage} from 'jotai/utils'
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_hellowWorldAtom = atom('hello world')
+const PRIVATE_numAtom = atom<number>(0)
 
 /**
  * Simplest version of useState in Jotai.
@@ -124,3 +125,17 @@ export const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
  * This atom can be reset.
  */
 export const defaultValueAtom = atomWithDefault(() => 9001)
+
+export const numSelector = atom(get => get(PRIVATE_numAtom))
+const writeOnlyNumAtom = atom(null, (get, set, newValue: number) => {
+  set(PRIVATE_numAtom, newValue)
+})
+
+/**
+ * This atom is a write-only atom which sets another write-only atom! It shows
+ * that trying to set a write-only atom will simply run that atom's write
+ * function.
+ */
+export const writeOnlyNumAtom2 = atom(null, (get, set, newValue: number) => {
+  set(writeOnlyNumAtom, newValue)
+})
