@@ -16,10 +16,11 @@ type Square = {
 const WIDTH = 50
 const HEIGHT = 50
 
+let lastId = 1
 export default function SquarePlayground() {
   const [ids, setIds] = useAtom(squareIdsAtom)
   const addId = useCallback(() => {
-    setIds(oldIds => [...oldIds, oldIds.length + 1])
+    setIds(oldIds => [...oldIds, lastId++])
   }, [setIds])
 
   return (
