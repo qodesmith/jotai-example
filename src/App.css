@@ -55,3 +55,19 @@ section {
   border: 1px solid;
   border-radius: 50%;
 }
+
+.squares-data {
+  width: 100%;
+}
+
+.square-data {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.square-data-color {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}

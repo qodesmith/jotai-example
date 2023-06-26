@@ -19,6 +19,7 @@ import {
 } from './state'
 import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
+import SquaresData from './SquaresData'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -175,6 +176,7 @@ function App({resetStore}: {resetStore: () => void}) {
           <ColorBox setState={setNumValue} />
         </section>
         <SquarePlayground />
+        <SquaresData />
       </div>
     </>
   )
