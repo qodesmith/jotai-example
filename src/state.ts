@@ -1,5 +1,7 @@
-import {ExtractAtomValue, atom} from 'jotai'
-import {RESET, atomWithDefault, atomWithStorage} from 'jotai/utils'
+import {createStore, ExtractAtomValue, PrimitiveAtom, atom} from 'jotai'
+import {RESET, atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
+
+export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_hellowWorldAtom = atom('hello world')
@@ -139,3 +141,43 @@ const writeOnlyNumAtom = atom(null, (get, set, newValue: number) => {
 export const writeOnlyNumAtom2 = atom(null, (get, set, newValue: number) => {
   set(writeOnlyNumAtom, newValue)
 })
+
+type Square = {
+  id: number
+  backgroundColor: string
+  top: number
+  left: number
+}
+export const squareIdsAtom = atom<number[]>([])
+export const squareAtomFamily = atomFamily<number, PrimitiveAtom<Square>>(
+  (id: number) => {
+    const randomColor = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(
+      Math.random() * 255
+    )}, ${Math.floor(Math.random() * 255)})`
+    return atom({id, backgroundColor: randomColor, top: 0, left: 0})
+  }
+)
+export const deleteSquareAtom = atom(null, (get, set, id: number) => {
+  set(
+    squareIdsAtom,
+    get(squareIdsAtom).filter(squareId => squareId !== id)
+  )
+  squareAtomFamily.remove(id)
+})
+export const resetSquareAtomFamily = () => {
+  const ids = currentJotaiStore.store.get(squareIdsAtom)
+  ids.forEach(squareAtomFamily.remove)
+}
+
+export const setSquareFamilyTop = atom(
+  null,
+  (get, set, id: number, newValue: number) => {
+    set(squareAtomFamily(id), old => ({...old, top: old.top + newValue}))
+  }
+)
+export const setSquareFamilyLeft = atom(
+  null,
+  (get, set, id: number, newValue: number) => {
+    set(squareAtomFamily(id), old => ({...old, left: old.left + newValue}))
+  }
+)

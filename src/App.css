@@ -4,10 +4,15 @@ header {
   align-items: center;
 }
 
+button {
+  user-select: none;
+}
+
 .sections {
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
+  user-select: none;
 }
 
 section {
@@ -29,4 +34,24 @@ section {
   font-style: italic;
   font-weight: bold;
   user-select: none;
+}
+
+.square-playground {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.square {
+  position: absolute;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square-delete {
+  border: 1px solid;
+  border-radius: 50%;
 }

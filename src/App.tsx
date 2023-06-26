@@ -1,5 +1,5 @@
 import './App.css'
-import {Provider, createStore, useAtom, useAtomValue, useSetAtom} from 'jotai'
+import {createStore, Provider, useAtom, useAtomValue, useSetAtom} from 'jotai'
 import {RESET, useResetAtom} from 'jotai/utils'
 import SuspenseValue from './SuspenseValue'
 import SuspenseValue2 from './SuspenseValue2'
@@ -14,10 +14,11 @@ import {
   primitiveAtom,
   setAsyncDefaultValueAtom,
   writeOnlyNumAtom2,
+  resetSquareAtomFamily,
+  currentJotaiStore,
 } from './state'
 import ColorBox from './ColorBox'
-
-let currentStore = createStore()
+import SquarePlayground from './SquarePlayground'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -37,10 +38,10 @@ let currentStore = createStore()
  * Remounting a <Provider> with a stable store reference won't clear the store.
  */
 export default function AppProvider() {
-  const [store, setStore] = useState(currentStore)
+  const [store, setStore] = useState(currentJotaiStore.store)
   const handleResetStore = useCallback(() => {
-    currentStore = createStore()
-    setStore(currentStore)
+    resetSquareAtomFamily()
+    setStore((currentJotaiStore.store = createStore()))
   }, [])
 
   useEffect(() => {
@@ -173,6 +174,7 @@ function App({resetStore}: {resetStore: () => void}) {
           <div>Value: {numValue}</div>
           <ColorBox setState={setNumValue} />
         </section>
+        <SquarePlayground />
       </div>
     </>
   )
