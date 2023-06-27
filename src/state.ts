@@ -215,3 +215,9 @@ export const setSquareFamilyLeft = atom(
     set(squareAtomFamily(id), old => ({...old, left: old.left + newValue}))
   }
 )
+export const resetSquaresAtom = atom(null, (get, set) => {
+  const ids = get(squareIdsAtom)
+  ids.forEach(id => {
+    set(squareAtomFamily(id), old => ({...old, top: 0, left: 0}))
+  })
+})

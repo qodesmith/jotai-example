@@ -6,6 +6,7 @@ import {
   setSquareFamilyLeft,
   squareAtomFamily,
   deleteSquareAtom,
+  resetSquaresAtom,
 } from './state'
 
 type Square = {
@@ -19,6 +20,7 @@ const HEIGHT = 50
 let lastId = 1
 export default function SquarePlayground() {
   const [ids, setIds] = useAtom(squareIdsAtom)
+  const resetAtoms = useSetAtom(resetSquaresAtom)
   const addId = useCallback(() => {
     setIds(oldIds => [...oldIds, lastId++])
   }, [setIds])
@@ -26,7 +28,10 @@ export default function SquarePlayground() {
   return (
     <section className="square-playground">
       <h2>Atom Family</h2>
-      <button onClick={addId}>Create square</button>
+      <div className="button-group">
+        <button onClick={addId}>Create square</button>
+        <button onClick={resetAtoms}>Reset square atoms</button>
+      </div>
       {ids.map(id => (
         <Square key={id} id={id} />
       ))}
