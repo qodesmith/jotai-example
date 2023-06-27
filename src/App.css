@@ -60,6 +60,12 @@ section {
   width: 100%;
 }
 
+.squares-data-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
+}
+
 .square-data {
   display: flex;
   align-items: center;
@@ -67,7 +73,7 @@ section {
 }
 
 .square-data-color {
-  border-radius: 50%;
+  border-radius: 4px;
   width: 20px;
   height: 20px;
 }

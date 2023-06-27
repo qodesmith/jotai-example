@@ -8,9 +8,11 @@ export default function SquaresData() {
   return (
     <section className="squares-data">
       <h2>Atom Family Data</h2>
-      {ids.map(id => (
-        <SquareData key={id} id={id} />
-      ))}
+      <div className="squares-data-items">
+        {ids.map(id => (
+          <SquareData key={id} id={id} />
+        ))}
+      </div>
     </section>
   )
 }
