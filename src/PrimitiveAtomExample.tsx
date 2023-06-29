@@ -1,7 +1,13 @@
-import {useSetAtom} from 'jotai'
-import {primitiveAtom} from './state'
+import {atom, useSetAtom} from 'jotai'
 import {useCallback} from 'react'
 import Value from './Value'
+
+/**
+ * `atom` is the basic building block in Jotai. A primitive atom is an atom that
+ * is initialized with a value instead of a read function. Atoms can hold any
+ * JavaScript value, such as primitives, objects, arrays, Maps, Sets, etc.
+ */
+export const primitiveAtom = atom(5)
 
 export function PrimitiveAtomExample() {
   const setPrimitive = useSetAtom(primitiveAtom)

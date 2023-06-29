@@ -1,17 +1,12 @@
 import {createStore, ExtractAtomValue, PrimitiveAtom, atom} from 'jotai'
 import {RESET, atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
+import {primitiveAtom} from './PrimitiveAtomExample'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_hellowWorldAtom = atom('hello world')
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * Simplest version of useState in Jotai.
- * This returns a value and a setter.
- */
-export const primitiveAtom = atom(5)
 
 /**
  * This selector is read-only. You do can either:
