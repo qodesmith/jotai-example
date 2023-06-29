@@ -9,7 +9,6 @@ import {
   defaultValueAtom,
   localStorageAtom,
   numSelector,
-  plusTwoWritableSelector,
   setAsyncDefaultValueAtom,
   writeOnlyNumAtom2,
   resetSquareAtomFamily,
@@ -19,8 +18,9 @@ import {
 import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
 import SquaresData from './SquaresData'
-import PrimitiveAtomExample from './PrimitiveAtomExample'
-import SelectorExample from './SelectorExample'
+import {PrimitiveAtomExample} from './PrimitiveAtomExample'
+import {SelectorExample} from './SelectorExample'
+import {WritableSelectorExample} from './WritableSelectorExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -63,7 +63,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
   const [isHidden2, setIsHidden2] = useState(false)
   const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
@@ -83,21 +82,7 @@ function App({resetStore}: {resetStore: () => void}) {
       <div className="sections">
         <PrimitiveAtomExample />
         <SelectorExample />
-        <section>
-          <h2>+2 Writable Selector</h2>
-          <div>Value: {plus2}</div>
-          <div>
-            <em>(setter return value logged to the console)</em>
-          </div>
-          <button
-            onClick={() => {
-              const returnVal = setPlus2('2')
-              console.log('returnVal:', returnVal)
-            }}
-          >
-            +2
-          </button>
-        </section>
+        <WritableSelectorExample />
         <section>
           <h2>Suspense Selector</h2>
           {isHidden ? (

@@ -2,7 +2,7 @@ import {useAtom} from 'jotai'
 import {primitiveAtom} from './state'
 import {useCallback} from 'react'
 
-export default function PrimitiveAtomExample() {
+export function PrimitiveAtomExample() {
   const [primitive, setPrimitive] = useAtom(primitiveAtom)
   const handleDecrement = useCallback(
     () => setPrimitive(old => old - 1),

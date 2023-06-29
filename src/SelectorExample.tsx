@@ -1,7 +1,7 @@
 import {useAtomValue} from 'jotai'
 import {doubleSelector} from './state'
 
-export default function SelectorExample() {
+export function SelectorExample() {
   const double = useAtomValue(doubleSelector)
 
   return (
