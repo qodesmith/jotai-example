@@ -16,6 +16,7 @@ import {
   writeOnlyNumAtom2,
   resetSquareAtomFamily,
   currentJotaiStore,
+  initialNumAtom,
 } from './state'
 import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
@@ -73,6 +74,7 @@ function App({resetStore}: {resetStore: () => void}) {
   const resetAsyncDefaultValueAtom = useResetAtom(asyncDefaultValueAtom)
   const numValue = useAtomValue(numSelector)
   const setNumValue = useSetAtom(writeOnlyNumAtom2)
+  const [initialNum, setInitialNum] = useAtom(initialNumAtom)
 
   return (
     <>
@@ -169,6 +171,11 @@ function App({resetStore}: {resetStore: () => void}) {
             </button>
             <button onClick={() => setWithDefault(RESET)}>Reset</button>
           </div>
+        </section>
+        <section>
+          <h2>Atom With Initial Value</h2>
+          <div>Value: {initialNum}</div>
+          <button onClick={() => setInitialNum(n => n + 1)}>Change num</button>
         </section>
         <section>
           <h2>Set a write-only atom</h2>

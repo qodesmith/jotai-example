@@ -128,6 +128,21 @@ export const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
  */
 export const defaultValueAtom = atomWithDefault(() => 9001)
 
+/**
+ * `createAtomWithInitialValue` returns a writable atom that takes an initial
+ * value. This type of atom is "resettable" in that resetting the Jotai store
+ * will return the atom to it's initial value.
+ */
+export const initialNumAtom = createAtomWithInitialValue(9001)
+function createAtomWithInitialValue<T>(initialValue: T) {
+  const anAtom = atom(initialValue, (get, set, newValue: ((v: T) => T) | T) => {
+    // For some reason, typeof newValue === 'function' doesn't work 🤷‍♂️
+    set(anAtom, newValue instanceof Function ? newValue(get(anAtom)) : newValue)
+  })
+
+  return anAtom
+}
+
 export const numSelector = atom(get => get(PRIVATE_numAtom))
 const writeOnlyNumAtom = atom(null, (get, set, newValue: number) => {
   set(PRIVATE_numAtom, newValue)
