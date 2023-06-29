@@ -1,5 +1,5 @@
 import './App.css'
-import {createStore, Provider, useAtom, useAtomValue, useSetAtom} from 'jotai'
+import {createStore, Provider, useAtomValue, useSetAtom} from 'jotai'
 import {useCallback, useEffect, useState} from 'react'
 import {
   localStorageAtom,
@@ -7,7 +7,6 @@ import {
   writeOnlyNumAtom2,
   resetSquareAtomFamily,
   currentJotaiStore,
-  initialNumAtom,
 } from './state'
 import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
@@ -19,6 +18,7 @@ import {SuspenseSelectorExample} from './SuspenseSelectorExample'
 import {SuspenseDefaultExample} from './SuspenseDefaultExample'
 import {LocalStorageAtomExample} from './LocalStorageAtomExample'
 import {DefaultValueAtomExample} from './DefaultValueAtomExample'
+import {InitialValueAtomExample} from './InitialValueAtomExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -63,7 +63,6 @@ export default function AppProvider() {
 function App({resetStore}: {resetStore: () => void}) {
   const numValue = useAtomValue(numSelector)
   const setNumValue = useSetAtom(writeOnlyNumAtom2)
-  const [initialNum, setInitialNum] = useAtom(initialNumAtom)
 
   return (
     <>
@@ -79,11 +78,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <SuspenseDefaultExample />
         <LocalStorageAtomExample />
         <DefaultValueAtomExample />
-        <section>
-          <h2>Atom With Initial Value</h2>
-          <div>Value: {initialNum}</div>
-          <button onClick={() => setInitialNum(n => n + 1)}>Change num</button>
-        </section>
+        <InitialValueAtomExample />
         <section>
           <h2>Set a write-only atom</h2>
           <div>Value: {numValue}</div>
