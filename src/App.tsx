@@ -1,14 +1,11 @@
 import './App.css'
-import {createStore, Provider, useAtomValue, useSetAtom} from 'jotai'
+import {createStore, Provider} from 'jotai'
 import {useCallback, useEffect, useState} from 'react'
 import {
   localStorageAtom,
-  numSelector,
-  writeOnlyNumAtom2,
   resetSquareAtomFamily,
   currentJotaiStore,
 } from './state'
-import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
 import SquaresData from './SquaresData'
 import {PrimitiveAtomExample} from './PrimitiveAtomExample'
@@ -19,6 +16,7 @@ import {SuspenseDefaultExample} from './SuspenseDefaultExample'
 import {LocalStorageAtomExample} from './LocalStorageAtomExample'
 import {DefaultValueAtomExample} from './DefaultValueAtomExample'
 import {InitialValueAtomExample} from './InitialValueAtomExample'
+import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -61,9 +59,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const numValue = useAtomValue(numSelector)
-  const setNumValue = useSetAtom(writeOnlyNumAtom2)
-
   return (
     <>
       <header>
@@ -79,11 +74,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <LocalStorageAtomExample />
         <DefaultValueAtomExample />
         <InitialValueAtomExample />
-        <section>
-          <h2>Set a write-only atom</h2>
-          <div>Value: {numValue}</div>
-          <ColorBox setState={setNumValue} />
-        </section>
+        <WriteOnlyAtomExample />
         <SquarePlayground />
         <SquaresData />
       </div>
