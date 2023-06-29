@@ -1,13 +1,11 @@
-import {useAtomValue} from 'jotai'
 import {doubleSelector} from './state'
+import Value from './Value'
 
 export function SelectorExample() {
-  const double = useAtomValue(doubleSelector)
-
   return (
     <section>
       <h2>Double Selector</h2>
-      <div>Value: {double}</div>
+      <Value atom={doubleSelector} />
       <div>
         Double the value of <code>primitiveAtom</code>
       </div>

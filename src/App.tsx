@@ -19,6 +19,7 @@ import {SelectorExample} from './SelectorExample'
 import {WritableSelectorExample} from './WritableSelectorExample'
 import {SuspenseSelectorExample} from './SuspenseSelectorExample'
 import {SuspenseDefaultExample} from './SuspenseDefaultExample'
+import {LocalStorageAtomExample} from './LocalStorageAtomExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -61,7 +62,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
   const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
   const numValue = useAtomValue(numSelector)
   const setNumValue = useSetAtom(writeOnlyNumAtom2)
@@ -79,23 +79,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <WritableSelectorExample />
         <SuspenseSelectorExample />
         <SuspenseDefaultExample />
-        <section>
-          <h2>Local Storage Atom</h2>
-          <div>Value: {localStorageValue}</div>
-          <div>
-            <em>(values logged to the console)</em>
-          </div>
-          <div className="button-group">
-            <button
-              onClick={() => setLocalStorageValue(Math.random().toString())}
-            >
-              Set to random number
-            </button>
-            <button onClick={() => setLocalStorageValue(RESET)}>
-              Clear value
-            </button>
-          </div>
-        </section>
+        <LocalStorageAtomExample />
         <section>
           <h2>Atom With Default Value</h2>
           <div>Value: {withDefault}</div>
