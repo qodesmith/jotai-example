@@ -7,7 +7,6 @@ import {Suspense, useCallback, useEffect, useState} from 'react'
 import {
   asyncDefaultValueAtom,
   defaultValueAtom,
-  doubleSelector,
   localStorageAtom,
   numSelector,
   plusTwoWritableSelector,
@@ -21,6 +20,7 @@ import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
 import SquaresData from './SquaresData'
 import PrimitiveAtomExample from './PrimitiveAtomExample'
+import SelectorExample from './SelectorExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -63,7 +63,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
   const [isHidden2, setIsHidden2] = useState(false)
@@ -83,13 +82,7 @@ function App({resetStore}: {resetStore: () => void}) {
       </header>
       <div className="sections">
         <PrimitiveAtomExample />
-        <section>
-          <h2>Double Selector</h2>
-          <div>Value: {double}</div>
-          <div>
-            Double the value of <code>primitiveAtom</code>
-          </div>
-        </section>
+        <SelectorExample />
         <section>
           <h2>+2 Writable Selector</h2>
           <div>Value: {plus2}</div>
