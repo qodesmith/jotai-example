@@ -1,7 +1,6 @@
 import './App.css'
 import {createStore, Provider, useAtom, useAtomValue, useSetAtom} from 'jotai'
 import {RESET, useResetAtom} from 'jotai/utils'
-import SuspenseValue from './SuspenseValue'
 import SuspenseValue2 from './SuspenseValue2'
 import {Suspense, useCallback, useEffect, useState} from 'react'
 import {
@@ -21,6 +20,7 @@ import SquaresData from './SquaresData'
 import {PrimitiveAtomExample} from './PrimitiveAtomExample'
 import {SelectorExample} from './SelectorExample'
 import {WritableSelectorExample} from './WritableSelectorExample'
+import {SuspenseSelectorExample} from './SuspenseSelectorExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -63,7 +63,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const [isHidden, setIsHidden] = useState(false)
   const [isHidden2, setIsHidden2] = useState(false)
   const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
   const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
@@ -83,21 +82,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <PrimitiveAtomExample />
         <SelectorExample />
         <WritableSelectorExample />
-        <section>
-          <h2>Suspense Selector</h2>
-          {isHidden ? (
-            <div>Supspense is hidden.</div>
-          ) : (
-            <Suspense key={Math.random()} fallback="Loading...">
-              <SuspenseValue />
-            </Suspense>
-          )}
-          <div>
-            <button onClick={() => setIsHidden(v => !v)}>
-              {isHidden ? 'Show' : 'Remove'}
-            </button>
-          </div>
-        </section>
+        <SuspenseSelectorExample />
         <section>
           <h2>Suspense Default Atom</h2>
           {isHidden2 ? (
