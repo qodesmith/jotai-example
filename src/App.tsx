@@ -11,7 +11,6 @@ import {
   localStorageAtom,
   numSelector,
   plusTwoWritableSelector,
-  primitiveAtom,
   setAsyncDefaultValueAtom,
   writeOnlyNumAtom2,
   resetSquareAtomFamily,
@@ -21,6 +20,7 @@ import {
 import ColorBox from './ColorBox'
 import SquarePlayground from './SquarePlayground'
 import SquaresData from './SquaresData'
+import PrimitiveAtomExample from './PrimitiveAtomExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -63,7 +63,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const [primitive, setPrimitive] = useAtom(primitiveAtom)
   const double = useAtomValue(doubleSelector)
   const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
   const [isHidden, setIsHidden] = useState(false)
@@ -83,14 +82,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <button onClick={resetStore}>Reset Jotai store</button>
       </header>
       <div className="sections">
-        <section>
-          <h2>Primitive Atom</h2>
-          <div>Value: {primitive}</div>
-          <div className="button-group">
-            <button onClick={() => setPrimitive(old => old - 1)}>-</button>
-            <button onClick={() => setPrimitive(old => old + 1)}>+</button>
-          </div>
-        </section>
+        <PrimitiveAtomExample />
         <section>
           <h2>Double Selector</h2>
           <div>Value: {double}</div>
