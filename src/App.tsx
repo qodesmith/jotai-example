@@ -1,9 +1,7 @@
 import './App.css'
 import {createStore, Provider, useAtom, useAtomValue, useSetAtom} from 'jotai'
-import {RESET} from 'jotai/utils'
 import {useCallback, useEffect, useState} from 'react'
 import {
-  defaultValueAtom,
   localStorageAtom,
   numSelector,
   writeOnlyNumAtom2,
@@ -20,6 +18,7 @@ import {WritableSelectorExample} from './WritableSelectorExample'
 import {SuspenseSelectorExample} from './SuspenseSelectorExample'
 import {SuspenseDefaultExample} from './SuspenseDefaultExample'
 import {LocalStorageAtomExample} from './LocalStorageAtomExample'
+import {DefaultValueAtomExample} from './DefaultValueAtomExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -62,7 +61,6 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
   const numValue = useAtomValue(numSelector)
   const setNumValue = useSetAtom(writeOnlyNumAtom2)
   const [initialNum, setInitialNum] = useAtom(initialNumAtom)
@@ -80,16 +78,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <SuspenseSelectorExample />
         <SuspenseDefaultExample />
         <LocalStorageAtomExample />
-        <section>
-          <h2>Atom With Default Value</h2>
-          <div>Value: {withDefault}</div>
-          <div className="button-group">
-            <button onClick={() => setWithDefault(+Math.random().toFixed(2))}>
-              Set selector to random val
-            </button>
-            <button onClick={() => setWithDefault(RESET)}>Reset</button>
-          </div>
-        </section>
+        <DefaultValueAtomExample />
         <section>
           <h2>Atom With Initial Value</h2>
           <div>Value: {initialNum}</div>

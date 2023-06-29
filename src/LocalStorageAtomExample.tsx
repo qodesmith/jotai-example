@@ -1,4 +1,4 @@
-import {useAtomValue, useSetAtom} from 'jotai'
+import {useSetAtom} from 'jotai'
 import {RESET} from 'jotai/utils'
 import {localStorageAtom} from './state'
 import {useCallback} from 'react'
