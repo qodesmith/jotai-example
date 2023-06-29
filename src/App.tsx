@@ -1,14 +1,11 @@
 import './App.css'
 import {createStore, Provider, useAtom, useAtomValue, useSetAtom} from 'jotai'
-import {RESET, useResetAtom} from 'jotai/utils'
-import SuspenseValue2 from './SuspenseValue2'
-import {Suspense, useCallback, useEffect, useState} from 'react'
+import {RESET} from 'jotai/utils'
+import {useCallback, useEffect, useState} from 'react'
 import {
-  asyncDefaultValueAtom,
   defaultValueAtom,
   localStorageAtom,
   numSelector,
-  setAsyncDefaultValueAtom,
   writeOnlyNumAtom2,
   resetSquareAtomFamily,
   currentJotaiStore,
@@ -21,6 +18,7 @@ import {PrimitiveAtomExample} from './PrimitiveAtomExample'
 import {SelectorExample} from './SelectorExample'
 import {WritableSelectorExample} from './WritableSelectorExample'
 import {SuspenseSelectorExample} from './SuspenseSelectorExample'
+import {SuspenseDefaultExample} from './SuspenseDefaultExample'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -63,11 +61,8 @@ export default function AppProvider() {
 }
 
 function App({resetStore}: {resetStore: () => void}) {
-  const [isHidden2, setIsHidden2] = useState(false)
   const [localStorageValue, setLocalStorageValue] = useAtom(localStorageAtom)
   const [withDefault, setWithDefault] = useAtom(defaultValueAtom)
-  const asyncDefaultValueAtomUpdater = useSetAtom(setAsyncDefaultValueAtom)
-  const resetAsyncDefaultValueAtom = useResetAtom(asyncDefaultValueAtom)
   const numValue = useAtomValue(numSelector)
   const setNumValue = useSetAtom(writeOnlyNumAtom2)
   const [initialNum, setInitialNum] = useAtom(initialNumAtom)
@@ -83,23 +78,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <SelectorExample />
         <WritableSelectorExample />
         <SuspenseSelectorExample />
-        <section>
-          <h2>Suspense Default Atom</h2>
-          {isHidden2 ? (
-            <div>Supspense is hidden.</div>
-          ) : (
-            <Suspense key={Math.random()} fallback="Loading...">
-              <SuspenseValue2 />
-            </Suspense>
-          )}
-          <div className="button-group">
-            <button onClick={() => setIsHidden2(v => !v)}>
-              {isHidden2 ? 'Show' : 'Remove'}
-            </button>
-            <button onClick={asyncDefaultValueAtomUpdater}>Update</button>
-            <button onClick={resetAsyncDefaultValueAtom}>Reset</button>
-          </div>
-        </section>
+        <SuspenseDefaultExample />
         <section>
           <h2>Local Storage Atom</h2>
           <div>Value: {localStorageValue}</div>
