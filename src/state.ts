@@ -9,15 +9,6 @@ const PRIVATE_hellowWorldAtom = atom('hello world')
 const PRIVATE_numAtom = atom<number>(0)
 
 /**
- * This selector is read-only. You do can either:
- * - const [double] = useAtom(doubleSelector)
- * - const double = useAtomValue(doubleSelector)
- *
- * Destructuring the 2nd setter argument with useAtom will not work.
- */
-export const doubleSelector = atom(get => get(primitiveAtom) * 2)
-
-/**
  * A writable selector must have 2 arguments:
  * 1. Read function that returns the value of this selector
  * 2. Write function that writes back to any underlying atoms you get().
