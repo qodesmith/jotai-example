@@ -1,6 +1,6 @@
 import {useCallback, useState} from 'react'
-import SuspenseValue from './SuspenseValue'
 import {atom, ExtractAtomValue} from 'jotai'
+import Value from './Value'
 
 const hellowWorldAtom = atom('hello world')
 
@@ -30,7 +30,7 @@ export function SuspenseSelectorExample() {
       {isHidden ? (
         <div>Supspense is hidden.</div>
       ) : (
-        <SuspenseValue atom={promiseSelector} />
+        <Value atom={promiseSelector} fallback="Loading..." />
       )}
       <div>
         <button onClick={toggleHidden}>{isHidden ? 'Show' : 'Remove'}</button>
