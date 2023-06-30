@@ -1,5 +1,6 @@
-import {Suspense, useCallback, useState} from 'react'
+import {useCallback, useState} from 'react'
 import SuspenseValue from './SuspenseValue'
+import {promiseSelector} from './state'
 
 export function SuspenseSelectorExample() {
   const [isHidden, setIsHidden] = useState(false)
@@ -13,9 +14,7 @@ export function SuspenseSelectorExample() {
       {isHidden ? (
         <div>Supspense is hidden.</div>
       ) : (
-        <Suspense key={Math.random()} fallback="Loading...">
-          <SuspenseValue />
-        </Suspense>
+        <SuspenseValue atom={promiseSelector} />
       )}
       <div>
         <button onClick={toggleHidden}>{isHidden ? 'Show' : 'Remove'}</button>
