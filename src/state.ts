@@ -1,25 +1,11 @@
-import {createStore, ExtractAtomValue, PrimitiveAtom, atom} from 'jotai'
+import {createStore, PrimitiveAtom, atom} from 'jotai'
 import {RESET, atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
+import {promiseSelector} from './SuspenseSelectorExample'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
-const PRIVATE_hellowWorldAtom = atom('hello world')
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * Jotai will suspend since this selector returns a promise.
- *
- * We can use Jotai's type helper - ExtractAtomValue - to infer the type from
- * the atom we consume in the selector.
- */
-export const promiseSelector = atom<
-  Promise<ExtractAtomValue<typeof PRIVATE_hellowWorldAtom>>
->(get => {
-  return new Promise(resolve => {
-    setTimeout(() => resolve(get(PRIVATE_hellowWorldAtom)), 2000)
-  })
-})
 
 /**
  * This atom's default value consumes a selector which returns a promise,
