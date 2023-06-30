@@ -1,50 +1,11 @@
 import {createStore, ExtractAtomValue, PrimitiveAtom, atom} from 'jotai'
 import {RESET, atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
-import {primitiveAtom} from './PrimitiveAtomExample'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_hellowWorldAtom = atom('hello world')
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * A writable selector must have 2 arguments:
- * 1. Read function that returns the value of this selector
- * 2. Write function that writes back to any underlying atoms you get().
- *
- * const [plus2, setPlus2] = useAtom(plusTwoWritableSelector)
- *
- * Unlike primitive atoms, the setter from a writable selector does not take a
- * function where you can access the old value. Whatever you pass the setter
- * becomes the value of the underlying atom. So if you pass a function, the
- * function itself becomes the new value stored in the atom.
- *
- * The write function can also return a value!
- *
- * const returnVal = setPlus2(2)
- *
- * Writable selectors are ALWAYS based on an external atom for their source of
- * truth. You cannot try to use the writable selector itself to store data.
- * For example, the following WILL NOT WORK:
- *
- * ```typescript
- * type AB = {a: number; b: number}
- * const writableSelector = atom<AB, [AB | typeof RESET], void>(
- *   () => ({a: 1, b: 2}),
- *   (get, set, newValue) => (newValue === RESET ? {a: 1, b: 2} : newValue)
- * )
- * ```
- * The above example doesn't work because the read function always returns the
- * same value as opposed to returning an underlying atom's value.
- */
-export const plusTwoWritableSelector = atom(
-  get => get(primitiveAtom) + 2,
-  (get, set, newValue: string) => {
-    set(primitiveAtom, get(primitiveAtom) + Number(newValue))
-    return {hello: 'world'}
-  }
-)
 
 /**
  * Jotai will suspend since this selector returns a promise.
