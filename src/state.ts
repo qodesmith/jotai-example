@@ -1,45 +1,10 @@
 import {createStore, PrimitiveAtom, atom} from 'jotai'
-import {RESET, atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
-import {promiseSelector} from './SuspenseSelectorExample'
+import {atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * This atom's default value consumes a selector which returns a promise,
- * therefore Jotai will suspend.
- *
- * https://github.com/pmndrs/jotai/releases/tag/v2.2.0
- *
- * As of Jotai 2.2.0, you need to `.then` the promise if you want to
- * use the value prior to returning it. For example, this atom appends more
- * string content to the resolved `promiseSelector` value.
- *
- * If you want to be able to set the atom to non-promise values *after* it
- * has resolved, you need to type it accordingly:
- *
- * ```
- * atomWithDefault<Promise<Value> | Value>(...)
- * ```
- */
-export const asyncDefaultValueAtom = atomWithDefault<Promise<string> | string>(
-  get => get(promiseSelector).then(val => `${val} => goodbye nowhere!`)
-)
-
-/**
- * This atom is just a setter for `asyncDefaultValueAtom`. It doesn't pay
- * pay attention to the value passed into it, but if you want to reset the
- * underlying `asyncDefaultValueAtom`, you need to explicitly handle that by
- * checking if `newValue === RESET`.
- */
-export const setAsyncDefaultValueAtom = atom(null, (get, set, newValue) => {
-  set(
-    asyncDefaultValueAtom,
-    newValue === RESET ? RESET : Math.random().toFixed(4)
-  )
-})
 
 /**
  * Behavior for localStorageAtom:
