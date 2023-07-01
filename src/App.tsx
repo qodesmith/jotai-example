@@ -1,11 +1,7 @@
 import './App.css'
 import {createStore, Provider} from 'jotai'
 import {useCallback, useEffect, useState} from 'react'
-import {
-  localStorageAtom,
-  resetSquareAtomFamily,
-  currentJotaiStore,
-} from './state'
+import {resetSquareAtomFamily, currentJotaiStore} from './state'
 import SquarePlayground from './SquarePlayground'
 import SquaresData from './SquaresData'
 import {PrimitiveAtomExample} from './PrimitiveAtomExample'
@@ -13,7 +9,10 @@ import {SelectorExample} from './SelectorExample'
 import {WritableSelectorExample} from './WritableSelectorExample'
 import {SuspenseSelectorExample} from './SuspenseSelectorExample'
 import {SuspenseDefaultExample} from './SuspenseDefaultExample'
-import {LocalStorageAtomExample} from './LocalStorageAtomExample'
+import {
+  localStorageAtom,
+  LocalStorageAtomExample,
+} from './LocalStorageAtomExample'
 import {DefaultValueAtomExample} from './DefaultValueAtomExample'
 import {InitialValueAtomExample} from './InitialValueAtomExample'
 import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
@@ -45,7 +44,7 @@ export default function AppProvider() {
   useEffect(() => {
     // Just a simple way to see when the localStorage atom changes.
     const unsub = store.sub(localStorageAtom, () => {
-      console.log(localStorage)
+      console.log('localStorage:', localStorage)
     })
 
     return unsub

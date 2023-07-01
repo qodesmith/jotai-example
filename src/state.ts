@@ -1,19 +1,10 @@
 import {createStore, PrimitiveAtom, atom} from 'jotai'
-import {atomWithDefault, atomWithStorage, atomFamily} from 'jotai/utils'
+import {atomWithDefault, atomFamily} from 'jotai/utils'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * Behavior for localStorageAtom:
- * - locaStorage will NOT be set to the initialValue just by accessing the atom
- * - As soon as the atom's value is changed, an entry is made in localStorage
- * - The atom will initialize to the value found in localStorage upon refresh
- * - Resetting the atom removes the key from localStorage
- */
-export const localStorageAtom = atomWithStorage('jotaiLocalStorageAtom', 'test')
 
 /**
  * This atom has the same syntax as a selector (read-only atom), but it is
