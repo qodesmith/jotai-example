@@ -1,21 +1,10 @@
 import {createStore, PrimitiveAtom, atom} from 'jotai'
-import {atomWithDefault, atomFamily} from 'jotai/utils'
+import {atomFamily} from 'jotai/utils'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * This atom has the same syntax as a selector (read-only atom), but it is
- * writable! The 1st argument is a function which returns the default value.
- *
- * It acts almost like a writable selector except IT IS the source of truth -
- * no other atom is required to make it a "writable selector".
- *
- * This atom can be reset.
- */
-export const defaultValueAtom = atomWithDefault(() => 9001)
 
 /**
  * `createAtomWithInitialValue` returns a writable atom that takes an initial
