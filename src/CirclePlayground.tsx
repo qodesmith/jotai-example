@@ -23,6 +23,7 @@ type Circle = {
 type FamilyOptions<Param> = {
   areEqual?: (a: Param, b: Param) => boolean
   getStore?: () => ReturnType<typeof getDefaultStore>
+  isResettable?: boolean
 }
 
 function atomFamily<Param, AtomType extends Atom<unknown>>(
@@ -104,6 +105,12 @@ function atomFamily<Param, AtomType extends Atom<unknown>>(
     )
   }
 
+  family.clear = () => {
+    const store = getStore()
+    atomsMap.clear()
+    store.set(paramsAtom, [])
+  }
+
   return family
 }
 
@@ -128,13 +135,16 @@ export function CirclePlayground() {
     const id = nextIdRef.current++
     circleAtomFamily.add({id})
   }, [])
+  const resetCircleFAmily = useCallback(() => circleAtomFamily.clear(), [])
 
   return (
     <section className="circle-playground">
       <h2>Custom Atom Family</h2>
       <div className="button-group">
         <button onClick={createCircle}>Create circle</button>
-        <button disabled={!ids.length}>Reset circle atom values</button>
+        <button onClick={resetCircleFAmily} disabled={!ids.length}>
+          Reset circle family
+        </button>
       </div>
       {ids.map(({id}) => (
         <Circle key={id} id={id} />
