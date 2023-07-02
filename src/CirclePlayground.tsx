@@ -14,7 +14,7 @@ type Circle = {
   left: number
 }
 
-const circleAtomFamily = atomFamily<
+export const circleAtomFamily = atomFamily<
   {id: number},
   WritableAtom<Circle, [SetStateAction<Circle>], void>
 >(

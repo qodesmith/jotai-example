@@ -16,6 +16,7 @@ import {DefaultValueAtomExample} from './DefaultValueAtomExample'
 import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
 import {jotaiStore} from './jotaiStore'
 import {CirclePlayground} from './CirclePlayground'
+import CirclesData from './CirclesData'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -76,6 +77,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <SquarePlayground />
         <SquaresData />
         <CirclePlayground />
+        <CirclesData />
       </div>
     </>
   )
