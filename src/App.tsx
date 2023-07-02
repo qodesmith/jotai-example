@@ -1,8 +1,7 @@
 import './App.css'
 import {createStore, Provider} from 'jotai'
 import {useCallback, useEffect, useState} from 'react'
-import {resetSquareAtomFamily, currentJotaiStore} from './state'
-import SquarePlayground from './SquarePlayground'
+import SquarePlayground, {resetSquareAtomFamily} from './SquarePlayground'
 import SquaresData from './SquaresData'
 import {PrimitiveAtomExample} from './PrimitiveAtomExample'
 import {SelectorExample} from './SelectorExample'
@@ -15,6 +14,7 @@ import {
 } from './LocalStorageAtomExample'
 import {DefaultValueAtomExample} from './DefaultValueAtomExample'
 import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
+import {jotaiStore} from './jotaiStore'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -34,10 +34,10 @@ import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
  * Remounting a <Provider> with a stable store reference won't clear the store.
  */
 export default function AppProvider() {
-  const [store, setStore] = useState(currentJotaiStore.store)
+  const [store, setStore] = useState(jotaiStore.store)
   const handleResetStore = useCallback(() => {
     resetSquareAtomFamily()
-    setStore((currentJotaiStore.store = createStore()))
+    setStore((jotaiStore.store = createStore()))
   }, [])
 
   useEffect(() => {

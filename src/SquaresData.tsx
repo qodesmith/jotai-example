@@ -1,6 +1,6 @@
 import {useAtomValue} from 'jotai'
-import {squareAtomFamily, squareIdsAtom} from './state'
 import {useMemo} from 'react'
+import {squareAtomFamily, squareIdsAtom} from './SquarePlayground'
 
 export default function SquaresData() {
   const ids = useAtomValue(squareIdsAtom)
