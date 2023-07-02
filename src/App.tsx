@@ -1,7 +1,7 @@
 import './App.css'
 import {createStore, Provider} from 'jotai'
 import {useCallback, useEffect, useState} from 'react'
-import SquarePlayground, {resetSquareAtomFamily} from './SquarePlayground'
+import {SquarePlayground, resetSquareAtomFamily} from './SquarePlayground'
 import SquaresData from './SquaresData'
 import {PrimitiveAtomExample} from './PrimitiveAtomExample'
 import {SelectorExample} from './SelectorExample'
@@ -15,6 +15,7 @@ import {
 import {DefaultValueAtomExample} from './DefaultValueAtomExample'
 import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
 import {jotaiStore} from './jotaiStore'
+import {CirclePlayground} from './CirclePlayground'
 
 /**
  * The Jotai <Provider> isn't necessary to use atoms. However, you can reset all
@@ -74,6 +75,7 @@ function App({resetStore}: {resetStore: () => void}) {
         <WriteOnlyAtomExample />
         <SquarePlayground />
         <SquaresData />
+        <CirclePlayground />
       </div>
     </>
   )

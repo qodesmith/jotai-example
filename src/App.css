@@ -36,13 +36,15 @@ section {
   user-select: none;
 }
 
-.square-playground {
+.square-playground,
+.circle-playground {
   width: 100%;
   position: relative;
   overflow: hidden;
 }
 
-.square {
+.square,
+.circle {
   position: absolute;
   border-radius: 4px;
   overflow: hidden;
@@ -51,7 +53,12 @@ section {
   align-items: center;
 }
 
-.square-delete {
+.circle {
+  border-radius: 50%;
+}
+
+.square-delete,
+.circle-delete {
   border: 1px solid;
   border-radius: 50%;
 }

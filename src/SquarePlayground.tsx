@@ -95,7 +95,7 @@ export const resetSquareAtomFamily = () => {
   ids.forEach(squareAtomFamily.remove)
 }
 
-export default function SquarePlayground() {
+export function SquarePlayground() {
   const lastIdRef = useRef(1)
   const [ids, setIds] = useAtom(squareIdsAtom)
   const resetAtoms = useSetAtom(resetSquaresAtom)
