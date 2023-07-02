@@ -2,6 +2,7 @@ import {useSetAtom} from 'jotai'
 import {atomWithStorage, useResetAtom} from 'jotai/utils'
 import {useCallback} from 'react'
 import Value from './Value'
+import {getRandomNum} from './utils/getRandomNum'
 
 /**
  * Behavior for localStorageAtom:
@@ -38,6 +39,6 @@ export function LocalStorageAtomExample() {
 const letters = 'abcdefghijklmnopqrstuvwxyz'
 function getRandomString() {
   return Array.from({length: 10})
-    .map(() => letters[Math.floor(Math.random() * letters.length)])
+    .map(() => letters[getRandomNum(0, 23)])
     .join('')
 }

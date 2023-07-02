@@ -1,25 +1,11 @@
 import {createStore, PrimitiveAtom, atom} from 'jotai'
 import {atomFamily} from 'jotai/utils'
+import {getRandomNum} from './utils/getRandomNum'
 
 export const currentJotaiStore = {store: createStore()}
 
 // Private atoms - Not to be consumed directly.
 const PRIVATE_numAtom = atom<number>(0)
-
-/**
- * `createAtomWithInitialValue` returns a writable atom that takes an initial
- * value. This type of atom is "resettable" in that resetting the Jotai store
- * will return the atom to it's initial value.
- */
-export const initialNumAtom = createAtomWithInitialValue(9001)
-function createAtomWithInitialValue<T>(initialValue: T) {
-  const anAtom = atom(initialValue, (get, set, newValue: ((v: T) => T) | T) => {
-    // For some reason, typeof newValue === 'function' doesn't work 🤷‍♂️
-    set(anAtom, newValue instanceof Function ? newValue(get(anAtom)) : newValue)
-  })
-
-  return anAtom
-}
 
 export const numSelector = atom(get => get(PRIVATE_numAtom))
 const writeOnlyNumAtom = atom(null, (get, set, newValue: number) => {
@@ -61,9 +47,9 @@ export const squareIdsAtom = atom<number[]>([])
  */
 export const squareAtomFamily = atomFamily<number, PrimitiveAtom<Square>>(
   (id: number) => {
-    const r = Math.floor(Math.random() * 255)
-    const g = Math.floor(Math.random() * 255)
-    const b = Math.floor(Math.random() * 255)
+    const r = getRandomNum(0, 255)
+    const g = getRandomNum(0, 255)
+    const b = getRandomNum(0, 255)
 
     return atom({id, backgroundColor: `rgb(${r},${g},${b})`, top: 0, left: 0})
   }

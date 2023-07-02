@@ -72,7 +72,6 @@ function App({resetStore}: {resetStore: () => void}) {
         <SuspenseDefaultExample />
         <LocalStorageAtomExample />
         <DefaultValueAtomExample />
-        <InitialValueAtomExample />
         <WriteOnlyAtomExample />
         <SquarePlayground />
         <SquaresData />
