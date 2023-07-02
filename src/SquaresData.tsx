@@ -1,5 +1,4 @@
 import {useAtomValue} from 'jotai'
-import {useMemo} from 'react'
 import {squareAtomFamily, squareIdsAtom} from './SquarePlayground'
 
 export default function SquaresData() {
@@ -19,11 +18,10 @@ export default function SquaresData() {
 
 function SquareData({id}: {id: number}) {
   const {backgroundColor, top, left} = useAtomValue(squareAtomFamily(id))
-  const style = useMemo(() => ({backgroundColor}), [backgroundColor])
 
   return (
     <div className="square-data">
-      <div className="square-data-color" style={style} />
+      <div className="square-data-color" style={{backgroundColor}} />
       <code>{JSON.stringify({id, top, left})}</code>
     </div>
   )
