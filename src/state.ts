@@ -4,23 +4,6 @@ import {getRandomNum} from './utils/getRandomNum'
 
 export const currentJotaiStore = {store: createStore()}
 
-// Private atoms - Not to be consumed directly.
-const PRIVATE_numAtom = atom<number>(0)
-
-export const numSelector = atom(get => get(PRIVATE_numAtom))
-const writeOnlyNumAtom = atom(null, (get, set, newValue: number) => {
-  set(PRIVATE_numAtom, newValue)
-})
-
-/**
- * This atom is a write-only atom which sets another write-only atom! It shows
- * that trying to set a write-only atom will simply run that atom's write
- * function.
- */
-export const writeOnlyNumAtom2 = atom(null, (get, set, newValue: number) => {
-  set(writeOnlyNumAtom, newValue)
-})
-
 type Square = {
   id: number
   backgroundColor: string

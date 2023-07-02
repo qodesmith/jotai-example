@@ -14,7 +14,6 @@ import {
   LocalStorageAtomExample,
 } from './LocalStorageAtomExample'
 import {DefaultValueAtomExample} from './DefaultValueAtomExample'
-import {InitialValueAtomExample} from './InitialValueAtomExample'
 import {WriteOnlyAtomExample} from './WriteOnlyAtomExample'
 
 /**
