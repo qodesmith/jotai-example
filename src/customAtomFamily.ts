@@ -3,7 +3,6 @@ import {Atom, atom, getDefaultStore} from 'jotai'
 type FamilyOptions<Param> = {
   areEqual?: (a: Param, b: Param) => boolean
   getStore?: () => ReturnType<typeof getDefaultStore>
-  isResettable?: boolean
 }
 
 export function atomFamily<Param, AtomType extends Atom<unknown>>(
