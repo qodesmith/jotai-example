@@ -1,4 +1,10 @@
-import {SetStateAction, WritableAtom, atom, useAtomValue} from 'jotai'
+import {
+  SetStateAction,
+  WritableAtom,
+  atom,
+  useAtomValue,
+  useSetAtom,
+} from 'jotai'
 import {getRandomNum} from './utils/getRandomNum'
 import {jotaiStore} from './jotaiStore'
 import {useCallback, useRef} from 'react'
@@ -53,16 +59,51 @@ export function CirclePlayground() {
   )
 }
 
+const setCircleFamilySide = atom(
+  null,
+  (get, set, id: number, newValue: number, side: 'top' | 'left') => {
+    set(circleAtomFamily({id}), circle => ({
+      ...circle,
+      [side]: circle[side] + newValue,
+    }))
+  }
+)
+
 function Circle({id}: {id: number}) {
   const {id: _unusedId, ...circleStyle} = useAtomValue(circleAtomFamily({id}))
   const removeCircle = useCallback(() => {
     circleAtomFamily.remove({id})
   }, [id])
+  const setSide = useSetAtom(setCircleFamilySide)
+  const isDraggingRef = useRef(false)
+  const onMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target !== e.currentTarget) return
+      isDraggingRef.current = true
+
+      const onMouseMove = (e: MouseEvent) => {
+        if (!isDraggingRef.current) return
+
+        setSide(id, e.movementY, 'top')
+        setSide(id, e.movementX, 'left')
+      }
+      const onMouseUp = () => {
+        isDraggingRef.current = false
+        document.removeEventListener('mouseup', onMouseUp)
+        document.removeEventListener('mousemove', onMouseMove)
+      }
+
+      document.addEventListener('mouseup', onMouseUp)
+      document.addEventListener('mousemove', onMouseMove)
+    },
+    [id, setSide]
+  )
 
   return (
     <div
       className="circle"
       style={{...circleStyle, width: WIDTH, height: HEIGHT}}
+      onMouseDown={onMouseDown}
     >
       <img
         className="circle-delete"
